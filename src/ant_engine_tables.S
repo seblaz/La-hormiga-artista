@@ -40,6 +40,7 @@ step_north:
 	sw t1, 4(a0)
 	
 	lw	fp, 4(sp)		# cargo el fp anterior
+	lw	gp, 0(sp)		# cargo el gp anterior
 	addiu	sp, sp, 8		# dejo el stack como estaba
 	jr	ra			# vuelvo a la rutina anterior
 	nop
@@ -66,6 +67,7 @@ step_south:
 	sw t1, 4(a0)
 	
 	lw	fp, 4(sp)		# cargo el fp anterior
+	lw	gp, 0(sp)		# cagor el gp anterior
 	addiu	sp, sp, 8		# dejo el stack como estaba
 	jr	ra			# vuelvo a la rutina anterior
 	nop
@@ -92,6 +94,7 @@ step_west:
 	sw t1, 0(a0)
 	
 	lw	fp, 4(sp)		# cargo el fp anterior
+	lw	gp, 0(sp)		# cargo el gp anterior
 	addiu	sp, sp, 8		# dejo el stack como estaba
 	jr	ra			# vuelvo a la rutina anterior
 	nop
@@ -118,6 +121,7 @@ step_east:
 	sw t1, 0(a0)
 	
 	lw	fp, 4(sp)		# cargo el fp anterior
+	lw 	gp, 0(sp)		# cargo el gp anterior
 	addiu	sp, sp, 8		# dejo el stack como estaba
 	jr	ra			# vuelvo a la rutina anterior
 	nop
@@ -193,6 +197,7 @@ move_forward:
 
 	move v0, t8		# devuelvo a0
 	move sp, fp		# dejo el sp como estaba antes (innecesario en este caso)
+	lw gp, 32(sp)
 	lw fp, 36(sp)
 	lw ra, 40(sp)
 	addiu sp, sp, 48

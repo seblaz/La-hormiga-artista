@@ -30,6 +30,7 @@ go_right:
 
 return_decide:
 	lw	fp, 4(sp)		# cargo el fp anterior
+	lw	gp, 0(sp)		# cargo el gp anterior
 	addiu	sp, sp, 8		# dejo el stack como estaba
 	jr	ra			# vuelvo a la rutina anterior
 	nop
@@ -90,16 +91,14 @@ norte:
 sur:
     li a1, 2
     li a2, 3
-    b call_decide
-    nop
 call_decide:
     move a0, t1			# guardo rule en a0
     jal decide
     nop
-    lw gp, 16(fp)		# cargo gp guardado en stack
     move sp, fp 		# vuelvo a dejar el stack pointer como antes de llamar decide
     lw ra, 24(sp)		# cargo el ra anterior.
     lw fp, 20(sp)		# cargo el fp anterior.
+    lw gp, 16(sp)		# cargo el gp anterior.
     addiu sp, sp, 32		# deshago el stack.
     jr ra			# vuelvo a la rutina que me llamo.
     nop
@@ -115,7 +114,7 @@ move_forward:
 	.set	noreorder
 	.cpload	t9
 	addiu	sp,sp,-8	# aumento el stack
-	sw	fp,4(sp)	# guardo el fp
+	sw	fp, 4(sp)	# guardo el fp
 	move 	fp, sp		# actualizo el fp
 	.cprestore 0		# guardo el gp
 	
@@ -177,6 +176,7 @@ return:
 	move v0, a0		# devuelvo a0
 	move sp, fp		# dejo el sp como estaba antes (innecesario en este caso)
 	lw fp, 4(sp)
+	lw gp, 0(sp)
 	addiu sp, sp, 8
 	jr ra
 	nop
