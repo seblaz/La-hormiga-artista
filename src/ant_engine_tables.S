@@ -30,6 +30,9 @@ step_north:
 	sw	gp, 0(sp)
 	move	fp, sp		# fin setup stack
 	
+	sw a0, 8(fp)		# guardo a0 en el stack anterior
+	sw a1, 12(fp)		# guardo a1 en el stack anterior
+
 	lw t1, 4(a0)		# t1 = ant->y
 	addiu t1, t1, -1	# t1 = ant->y - 1
 	divu $0, t1, a1		# ant->y - 1 / height
@@ -52,7 +55,10 @@ step_south:
 	sw	fp, 4(sp)
 	sw	gp, 0(sp)
 	move	fp, sp		# fin setup stack
-	
+
+	sw a0, 8(fp)		# guardo a0 en el stack anterior
+	sw a1, 12(fp)		# guardo a1 en el stack anterior
+
 	lw t1, 4(a0)		# t1 = ant->y
 	addiu t1, t1, 1		# t1 = ant->y + 1
 	divu $0, t1, a1		# ant->y + 1 / height
@@ -75,7 +81,10 @@ step_west:
 	sw	fp, 4(sp)
 	sw	gp, 0(sp)
 	move	fp, sp		# fin setup stack
-	
+
+	sw a0, 8(fp)		# guardo a0 en el stack anterior
+	sw a1, 12(fp)		# guardo a1 en el stack anterior
+
 	lw t1, 0(a0)		# t1 = ant->x
 	addiu t1, t1, -1	# t1 = ant->x - 1
 	divu $0, t1, a1		# ant->x - 1 / width
@@ -98,7 +107,10 @@ step_east:
 	sw	fp, 4(sp)
 	sw	gp, 0(sp)
 	move	fp, sp		# fin setup stack
-	
+
+	sw a0, 8(fp)		# guardo a0 en el stack anterior
+	sw a1, 12(fp)		# guardo a1 en el stack anterior
+
 	lw t1, 0(a0)		# t1 = ant->x
 	addiu t1, t1, 1		# t1 = ant->x + 1
 	divu $0, t1, a1		# ant->x + 1 / width
@@ -124,6 +136,9 @@ new_orientation:
     move fp, sp			# actualizo al nuevo fp
     .cprestore 0		# guardo el gp
     
+    sw a0, 8(fp)		# guardo a0 en el stack anterior
+    sw a1, 12(fp)		# guardo a1 en el stack anterior
+
     sll t1, a0, 3		# t1 = orientation * 8
     sll t3, a1, 2		# t3 = rule * 4
     add t1, t1, t3		# t1 = t1 + rule * 4
@@ -154,6 +169,10 @@ move_forward:
 	move 	fp, sp		# actualizo el fp
 	.cprestore 32		# guardo el gp
 	
+	sw a0, 48(fp)		# guardo a0 en el stack anterior
+	sw a1, 52(fp)		# guardo a1 en el stack anterior
+	sw a2, 56(fp)		# guardo a2 en el stack anterior
+
 	sw a2, 28(fp)		# height
 	sw a2, 24(fp)		# height
 	sw a1, 20(fp)		# width

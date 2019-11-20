@@ -13,6 +13,11 @@ decide:
 	sw	fp, 4(sp)
 	sw	gp, 0(sp)
 	move	fp, sp
+
+	sw	a0, 8(fp)		# guardo a0 en el stack anterior
+	sw	a1, 12(fp)		# guardo a1 en el stack anterior
+	sw	a2, 16(fp)		# guardo a2 en el stack anterior
+
 	li 	t0, 1			# t0 = 1 = RIGHT
 	beq	a0, t0, go_right	# d == RIGHT?
 	nop
@@ -43,6 +48,10 @@ new_orientation:
     sw fp, 20(sp)		# guardo fp (frame pointer)
     move fp, sp			# actualizo al nuevo fp
     .cprestore 16		# restablece el gp
+
+    sw	a0, 32(fp)		# guardo a0 en el stack anterior
+    sw	a1, 36(fp)		# guardo a1 en el stack anterior
+
     move t1, a1			# guardo la regla en otro registro
 
     beq a0, $0, norte		# orientation = NORTH
@@ -109,6 +118,11 @@ move_forward:
 	sw	fp,4(sp)	# guardo el fp
 	move 	fp, sp		# actualizo el fp
 	.cprestore 0		# guardo el gp
+	
+	sw	a0, 8(fp)		# guardo a0 en el stack anterior
+	sw	a1, 12(fp)		# guardo a1 en el stack anterior
+	sw	a2, 16(fp)		# guardo a2 en el stack anterior
+
 	lw 	t0, 8(a0)	# t0 = ant->o
 	beq	t0, $0, north	# $0 = 0 = norte.
 	nop
