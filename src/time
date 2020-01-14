@@ -1,0 +1,37 @@
+#!/bin/bash
+
+avg_time() {
+    #
+    # usage: avg_time n command ...
+    #
+    n=$1; shift
+    (($# > 0)) || return                   # bail if no command given
+    for ((i = 0; i < n; i++)); do
+        { time -p "$@" > /dev/null; } 2>&1 # ignore the output of the command
+                                           # but collect time's output in stdout
+    done | awk '
+        /real/ { real = real + $2; nr++ }
+        /user/ { user = user + $2; nu++ }
+        /sys/  { sys  = sys  + $2; ns++}
+        END    {
+                 if (nr>0) printf("real %.4f\n", real/nr);
+                 if (nu>0) printf("user %.4f\n", user/nu);
+                 if (ns>0) printf("sys %.4f\n",  sys/ns)
+               }'
+}
+
+echo "con tables:"
+avg_time $1 ./tp1_tables "${@:2}"
+echo ""
+
+echo "con ifs:"
+avg_time $1 ./tp1_if "${@:2}"
+echo ""
+
+echo "con ifs hecho en asm:"
+avg_time $1 ./tp1_if_asm "${@:2}"
+echo ""
+
+echo "con tables hecho en asm:"
+avg_time $1 ./tp1_tables_asm "${@:2}"
+echo ""
